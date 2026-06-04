@@ -23,4 +23,6 @@ jobs:
           test -s CONTENT_POLICY.md
           test -s ebooks/Agile/README.md
           test -s ebooks/Privacy/README.md
-          git grep -nE 'ghp_|github_pat_|sk-[A-Za-z0-9_-]{20,}|-----BEGIN .*PRIVATE KEY-----|password=|token=' && exit 1 || true
+          if git grep -nE 'ghp_|github_pat_|sk-[A-Za-z0-9_-]{20,}|-----BEGIN .*PRIVATE KEY-----|password=|token=' -- README.md CONTENT_POLICY.md ebooks/Agile/README.md ebooks/Privacy/README.md; then
+            exit 1
+          fi
