@@ -1,0 +1,26 @@
+name: Content quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate governance files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s README.md
+          test -s CONTENT_POLICY.md
+          test -s ebooks/Agile/README.md
+          test -s ebooks/Privacy/README.md
+          git grep -nE 'ghp_|github_pat_|sk-[A-Za-z0-9_-]{20,}|-----BEGIN .*PRIVATE KEY-----|password=|token=' && exit 1 || true
